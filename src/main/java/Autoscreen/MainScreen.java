@@ -15,7 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
 
-public class ApiRequest extends JFrame implements ActionListener {
+public class MainScreen extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JLabel timeLabel;
     private JToggleButton playButton;
@@ -25,7 +25,7 @@ public class ApiRequest extends JFrame implements ActionListener {
 
     private static long lastCaptureTime = 0;
 
-    public ApiRequest() {
+    public MainScreen() {
         super("HubStaff");
 
 
@@ -234,7 +234,7 @@ public class ApiRequest extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         // Create and show the GUI
-        ApiRequest apiRequest = new ApiRequest();
+        MainScreen apiRequest = new MainScreen();
         apiRequest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         apiRequest.setSize(400, 200);
         apiRequest.setVisible(true);
