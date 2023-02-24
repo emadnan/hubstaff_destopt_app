@@ -67,67 +67,14 @@ public class MainScreen extends JFrame implements ActionListener {
                 // Pause the timer
                 timer.stop();
                 stopCapturing();
-                // Show the time notification
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                // JOptionPane.showMessageDialog(null, "Your time has been paused!", "Timer", JOptionPane.INFORMATION_MESSAGE);
-                                notification("Your time has been paused!");
-                            }
-                        });
-                    }
-                }).start();
+                notification("Your time has been paused!");
             } else {
                 // Resume the timer
                 timer.start();
                 startCapturing();
                 // Show the time notification
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                // JOptionPane.showMessageDialog(null, "Your time has started!", "Timer", JOptionPane.INFORMATION_MESSAGE);
-                                notification("Your time has started!");
-                            }
-                        });
-                    }
-                }).start();
+                notification("Your time has started!");
             }
-
-            // Create a new thread to close the message dialog after 3 seconds
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            JOptionPane.getRootFrame().dispose();
-
-                        }
-                    });
-                }
-
-            }).start();
         }
     }
 
@@ -168,9 +115,7 @@ public class MainScreen extends JFrame implements ActionListener {
         ImageIO.write(screenshot, "png", outputStream);
         byte[] imageBytes = outputStream.toByteArray();
         String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
-//        System.out.println(base64Encoded);
-//        return base64Encoded;
-            post(base64Encoded);
+        post(base64Encoded);
 
 
     }
@@ -252,10 +197,10 @@ public class MainScreen extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         // Create and show the GUI
-        MainScreen apiRequest = new MainScreen();
-        apiRequest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        apiRequest.setSize(400, 200);
-        apiRequest.setVisible(true);
+        MainScreen frame = new MainScreen();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 700);
+        frame.setVisible(true);
     }
 }
 
