@@ -79,7 +79,8 @@ public class MainScreen extends JFrame implements ActionListener {
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                                JOptionPane.showMessageDialog(null, "Your time has been paused!", "Timer", JOptionPane.INFORMATION_MESSAGE);
+                                // JOptionPane.showMessageDialog(null, "Your time has been paused!", "Timer", JOptionPane.INFORMATION_MESSAGE);
+                                notification("Your time has been paused!");
                             }
                         });
                     }
@@ -100,7 +101,8 @@ public class MainScreen extends JFrame implements ActionListener {
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                                JOptionPane.showMessageDialog(null, "Your time has started!", "Timer", JOptionPane.INFORMATION_MESSAGE);
+                                // JOptionPane.showMessageDialog(null, "Your time has started!", "Timer", JOptionPane.INFORMATION_MESSAGE);
+                                notification("Your time has started!");
                             }
                         });
                     }
@@ -147,22 +149,7 @@ public class MainScreen extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 try {
                     captureScreenAndEncodeToBase64();
-                    // Show message when screenshot is taken
-                    JOptionPane screenshotNotification = new JOptionPane("Screenshot taken!", JOptionPane.INFORMATION_MESSAGE);
-                    JDialog screenshotDialog = screenshotNotification.createDialog("Screenshot");
-                    screenshotDialog.setModal(false);
-                    screenshotDialog.setVisible(true);
-
-                    // Create a Timer to hide the message after 2 seconds
-                    Timer hideTimer = new Timer(2000, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            screenshotDialog.setVisible(false);
-                            screenshotDialog.dispose();
-                        }
-                    });
-                    hideTimer.setRepeats(false); // Only run once
-                    hideTimer.start();
+                    notification("Screenshot taken!");
                 } catch (AWTException | IOException ex) {
                     ex.printStackTrace();
                     System.out.println("Screenshot is taken");
@@ -217,6 +204,37 @@ public class MainScreen extends JFrame implements ActionListener {
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+        }
+    }
+    static void notification(String msg) 
+    {
+        if (SystemTray.isSupported()) {
+            // Get the system tray instance
+            SystemTray tray = SystemTray.getSystemTray();
+
+            // Create a notification icon
+            Image icon = Toolkit.getDefaultToolkit().getImage("src\\main\\resources\\PlayButton.png");
+
+            // Create a popup menu
+            PopupMenu menu = new PopupMenu();
+            MenuItem item = new MenuItem("Exit");
+            //hide automatically after 3 seconds
+            menu.add(item);
+
+            // Create a notification object
+            TrayIcon notification = new TrayIcon(icon, "Rafay", menu);
+
+            // Add the notification to the system tray
+            try {
+                tray.add(notification);
+            } catch (AWTException e) {
+                e.printStackTrace();
+            }
+
+            // Display the notification message
+            notification.displayMessage(msg , "", TrayIcon.MessageType.INFO);
+        } else {
+            System.out.println("System tray is not supported");
         }
     }
 
