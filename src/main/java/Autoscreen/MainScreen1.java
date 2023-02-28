@@ -94,7 +94,7 @@ public class MainScreen1 extends JFrame implements ActionListener {
     private void startCapturing() {
        new Thread(() -> {
             int numScreenshots = 3; // Number of screenshots to capture
-            int targetInterval = 60 * 1000 / numScreenshots; // Target interval between screenshots (in milliseconds)
+            int targetInterval = 10 * 60 * 1000 / numScreenshots; // Target interval between screenshots (in milliseconds)
             int minInterval = targetInterval / 3; // Minimum interval between screenshots (in milliseconds)
             int maxInterval = targetInterval * 3 / 3; // Maximum interval between screenshots (in milliseconds)
             java.util.List<String> screenshotList = new ArrayList<>();
@@ -111,7 +111,7 @@ public class MainScreen1 extends JFrame implements ActionListener {
                         break;
                     }
                     long elapsedTime = System.currentTimeMillis() - startTime;
-                    if (elapsedTime >= 60 * 1000) { // Check if 1 minute has passed and an API call has not been made
+                    if (elapsedTime >= 10 * 60 * 1000) { // Check if 1 minute has passed and an API call has not been made
                         sendScreenshots(screenshotList);
                         screenshotList.clear();
                         notification("API called");
