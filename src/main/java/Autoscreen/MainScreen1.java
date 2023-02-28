@@ -219,6 +219,7 @@ public class MainScreen1 extends JFrame implements ActionListener {
         }
     }
     private static void stopCapturing() {
+
         is_stop=1;
         if (timer1 != null) {
             timer1.stop();

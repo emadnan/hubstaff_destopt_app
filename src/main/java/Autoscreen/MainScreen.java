@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.Base64;
 
 public class MainScreen extends JFrame implements ActionListener {
+    
     private static final long serialVersionUID = 1L;
     private JLabel timeLabel;
     private JToggleButton playButton;
