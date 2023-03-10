@@ -40,9 +40,10 @@ public class MainScreen2 extends JFrame implements ActionListener {
 
     public MainScreen2(Integer user_id, String auth_token) {
         super("HubStaff");
+        getProjects(user_id);
         initializeUI();
         initializeTimers();
-        getProjects(user_id);
+        
     }
 
     private void initializeUI() {
@@ -66,6 +67,10 @@ public class MainScreen2 extends JFrame implements ActionListener {
 
         add(timeLabel, BorderLayout.NORTH);
         add(buttonsPanel, BorderLayout.CENTER);
+        JList<String> list = new JList<>(projects.toArray(new String[0]));
+        JScrollPane scrollPane = new JScrollPane(list);
+        // setLayout(new BorderLayout());
+         add(scrollPane, BorderLayout.SOUTH);
     }
 
     private void initializeTimers() {
