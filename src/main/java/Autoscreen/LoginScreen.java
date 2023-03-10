@@ -1,6 +1,9 @@
 package Autoscreen;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class LoginScreen extends JFrame implements ActionListener {
     
@@ -10,7 +13,7 @@ public class LoginScreen extends JFrame implements ActionListener {
     JButton loginButton;
     
     public LoginScreen() {
-        userLabel = new JLabel("Username:");
+        userLabel = new JLabel("Email:");
         passLabel = new JLabel("Password:");
         statusLabel = new JLabel("");
         userText = new JTextField();
@@ -49,8 +52,17 @@ public class LoginScreen extends JFrame implements ActionListener {
         
         if (authenticated) {
             // Redirect to main application screen
-            JOptionPane.showMessageDialog(this, "Login successful!");
+            // JOptionPane.showMessageDialog(this, "Login successful!");
+            // System.out.println("Login successful!");
+            // this.setVisible(false);
             // TODO: Add code to navigate to main application screen
+            // hide the login screen and show the main application screen
+            this.setVisible(false);
+            MainScreen2 mainScreen2 = new MainScreen2();
+            mainScreen2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainScreen2.setSize(400, 700);
+            mainScreen2.setVisible(true);
+            System.out.println("Login successful!");
         } else {
             // Display an error message and clear the password field
             statusLabel.setText("Invalid username or password");
@@ -61,7 +73,29 @@ public class LoginScreen extends JFrame implements ActionListener {
     public boolean authenticateUser(String username, String password) {
         // TODO: Call the API to authenticate the user
         // Return true if authentication is successful, false otherwise
-        return true;
+        try {
+            URL url = new URL("http://127.0.0.1:8000/api/login");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setDoOutput(true);
+            String requestBody = "{\"email\":\""+username+"\",\"password\":\""+password+"\"}";
+            OutputStream os = con.getOutputStream();
+            os.write(requestBody.getBytes());
+            os.flush();
+            os.close();
+            System.out.println("HTTP Status: " + con.getResponseCode());
+            if(con.getResponseCode() == 200) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        }
     }
     
     public static void main(String[] args) {
