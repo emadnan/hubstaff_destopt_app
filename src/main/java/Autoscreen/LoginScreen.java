@@ -1,6 +1,12 @@
 package Autoscreen;
 import javax.swing.*;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -11,6 +17,8 @@ public class LoginScreen extends JFrame implements ActionListener {
     JTextField userText;
     JPasswordField passText;
     JButton loginButton;
+    static Integer  user_id;
+    static String auth_token;
     
     public LoginScreen() {
         userLabel = new JLabel("Email:");
@@ -19,6 +27,7 @@ public class LoginScreen extends JFrame implements ActionListener {
         userText = new JTextField();
         passText = new JPasswordField();
         loginButton = new JButton("Login");
+
         
         userLabel.setBounds(10, 10, 80, 25);
         passLabel.setBounds(10, 40, 80, 25);
@@ -58,7 +67,7 @@ public class LoginScreen extends JFrame implements ActionListener {
             // TODO: Add code to navigate to main application screen
             // hide the login screen and show the main application screen
             this.setVisible(false);
-            MainScreen2 mainScreen2 = new MainScreen2();
+            MainScreen2 mainScreen2 = new MainScreen2(user_id, auth_token);
             mainScreen2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             mainScreen2.setSize(400, 700);
             mainScreen2.setVisible(true);
@@ -86,6 +95,24 @@ public class LoginScreen extends JFrame implements ActionListener {
             os.close();
             System.out.println("HTTP Status: " + con.getResponseCode());
             if(con.getResponseCode() == 200) {
+                //get response body
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                in.close();
+                // String token = extractValueFromResponse(response.toString(), "token");
+                // // String id = extractValueFromResponse(user, "id");
+                // System.out.println("token: " + token);
+                JSONObject resposeData = new JSONObject(response.toString());
+                JSONArray  user = resposeData.getJSONArray("user");
+                int id=user.getJSONObject(0).getInt("id");
+                user_id = id;
+                auth_token = resposeData.getString("token");
                 return true;
             }
             else {
@@ -97,7 +124,18 @@ public class LoginScreen extends JFrame implements ActionListener {
             return false;
         }
     }
-    
+    private String extractValueFromResponse(String responseString, String key) {
+        String value = null;
+        int startIndex = responseString.indexOf("\"" + key + "\":\"");
+        if (startIndex != -1) {
+            startIndex += key.length() + 4;
+            int endIndex = responseString.indexOf("\"", startIndex);
+            if (endIndex != -1) {
+                value = responseString.substring(startIndex, endIndex);
+            }
+        }
+        return value;
+    }
     public static void main(String[] args) {
         new LoginScreen();
     }

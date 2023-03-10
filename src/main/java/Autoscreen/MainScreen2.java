@@ -1,6 +1,7 @@
 package Autoscreen;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -29,6 +30,7 @@ public class MainScreen2 extends JFrame implements ActionListener {
     private static int is_stop = 0;
     private static volatile boolean isCapturing = true;
     private static ArrayList<String> screenshotList2 = new ArrayList<>();
+    private static ArrayList<String> projects = new ArrayList<>();
 
     private static long lastCaptureTime = 0;
     private static final String API_KEY = "8a3456acc27c4336a570379b2f7e849d";
@@ -36,10 +38,11 @@ public class MainScreen2 extends JFrame implements ActionListener {
 
     private static final String API_URL = "http://localhost:8080/screenshots";
 
-    public MainScreen2() {
+    public MainScreen2(Integer user_id, String auth_token) {
         super("HubStaff");
         initializeUI();
         initializeTimers();
+        getProjects(user_id);
     }
 
     private void initializeUI() {
@@ -175,8 +178,40 @@ public class MainScreen2 extends JFrame implements ActionListener {
         byte[] imageBytes = baos.toByteArray();
         return Base64.getEncoder().encodeToString(imageBytes);
     }
-
-
+    private void getProjects(Integer user_id){
+        try {
+            URL url = new URL("http://127.0.0.1:8000/api/get-project-by-user/"+user_id);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+        
+            // Get the response code
+            int responseCode = conn.getResponseCode();
+            
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // Get the response body
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+        
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+        
+                in.close();
+                JSONObject resposeData = new JSONObject(response.toString());
+                JSONArray  projectsArray = resposeData.getJSONArray("projects");
+                for (int i = 0; i < projectsArray.length(); i++) {
+                    JSONObject project = projectsArray.getJSONObject(i);
+                    String project_name = project.getString("project_name");
+                    projects.add(project_name);
+                }
+                System.out.println(projects);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
     public void sendScreenshots(java.util.List<String> screenshotList2) {
         try {
             URL url = new URL("http://127.0.0.1:8000/api/take_screen_shot");
@@ -264,10 +299,10 @@ public class MainScreen2 extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        MainScreen2 mainScreen2 = new MainScreen2();
-        mainScreen2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainScreen2.setSize(400, 700);
-        mainScreen2.setVisible(true);
+        // MainScreen2 mainScreen2 = new MainScreen2();
+        // mainScreen2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // mainScreen2.setSize(400, 700);
+        // mainScreen2.setVisible(true);
 
     }
 }
