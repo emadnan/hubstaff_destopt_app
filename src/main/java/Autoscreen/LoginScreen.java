@@ -35,6 +35,14 @@ public class LoginScreen extends JFrame implements ActionListener {
         passText.setBounds(100, 40, 160, 25);
         loginButton.setBounds(10, 80, 80, 25);
         statusLabel.setBounds(100, 80, 160, 25);
+        loginButton.setBackground(new java.awt.Color(51, 102, 255));
+        loginButton.setForeground(new java.awt.Color(255, 255, 255));
+        loginButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        userText.setFont(new java.awt.Font("Tahoma", 0, 11));
+        passText.setFont(new java.awt.Font("Tahoma", 0, 11));
+        userLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+        passLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+        statusLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         
         add(userLabel);
         add(passLabel);
@@ -45,7 +53,7 @@ public class LoginScreen extends JFrame implements ActionListener {
         
         loginButton.addActionListener(this);
         
-        setTitle("Login Screen");
+        setTitle("Biafo Hubstaff Login");
         setSize(300, 150);
         setLayout(null);
         setVisible(true);

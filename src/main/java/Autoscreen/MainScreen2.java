@@ -51,11 +51,12 @@ public class MainScreen2 extends JFrame implements ActionListener {
         timeLabel.setFont(new Font("Arial", Font.BOLD, 40));
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         timeLabel.setOpaque(true);
-        timeLabel.setBackground(Color.CYAN);
+        timeLabel.setBackground(new java.awt.Color(51, 102, 255));
+        timeLabel.setForeground(new java.awt.Color(255, 255, 255));
         timeLabel.setPreferredSize(new Dimension(40, 40));
 
-        playButton = new JToggleButton(new ImageIcon("src\\main\\resources\\PlayButton.png"), false);
-        playButton.setSelectedIcon(new ImageIcon("src\\main\\resources\\stop.png"));
+        playButton = new JToggleButton(new ImageIcon("src\\main\\resources\\PlayButton3.png"), false);
+        playButton.setSelectedIcon(new ImageIcon("src\\main\\resources\\stop2.png"));
         playButton.setBorderPainted(false);
         playButton.setContentAreaFilled(false);
         playButton.setFocusPainted(false);
