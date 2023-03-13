@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class MainScreen2 extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JLabel timeLabel;
+    private JLabel projectLabel;
     private JToggleButton playButton;
     private static Timer timer;
     private ScheduledExecutorService scheduler;
@@ -48,30 +49,56 @@ public class MainScreen2 extends JFrame implements ActionListener {
 
     private void initializeUI() {
         timeLabel = new JLabel("00:00:00");
-        timeLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        projectLabel = new JLabel("Project");
+        timeLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        projectLabel.setFont(new Font("Arial", Font.BOLD, 20));
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         timeLabel.setOpaque(true);
         timeLabel.setBackground(new java.awt.Color(51, 102, 255));
         timeLabel.setForeground(new java.awt.Color(255, 255, 255));
         timeLabel.setPreferredSize(new Dimension(40, 40));
-
+        //  String[] items = {"Item 1", "Item 2", "Item 3"};
+        JComboBox<String> dropdown = new JComboBox<>(projects.toArray(new String[0]));
+        // JComboBox<String> dropdown = new JComboBox<>(items);
+        dropdown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedItem = (String) dropdown.getSelectedItem();
+                //set project label to selected item
+                projectLabel.setText(selectedItem);
+            }
+        });
+        dropdown.setPreferredSize(new Dimension(100, 20));
+        dropdown.setForeground(new java.awt.Color(51, 102, 255));
+        dropdown.setBackground(new java.awt.Color(255, 255, 255));
         playButton = new JToggleButton(new ImageIcon("src\\main\\resources\\PlayButton3.png"), false);
         playButton.setSelectedIcon(new ImageIcon("src\\main\\resources\\stop2.png"));
         playButton.setBorderPainted(false);
         playButton.setContentAreaFilled(false);
         playButton.setFocusPainted(false);
         playButton.addActionListener(this);
+       
 
         JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new FlowLayout());
-        buttonsPanel.add(playButton);
+        buttonsPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints d = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 1;
+        d.gridy = 0;
+        d.gridx = 0;
+        c.anchor = GridBagConstraints.CENTER;
+        d.anchor = GridBagConstraints.CENTER;
+        buttonsPanel.add(playButton, c);
+        c.gridy = 3;
+        d.gridy = 0;
+        buttonsPanel.add(projectLabel, d);
+        buttonsPanel.add(dropdown, c);
 
+        int margin =40;
         add(timeLabel, BorderLayout.NORTH);
         add(buttonsPanel, BorderLayout.CENTER);
-        JList<String> list = new JList<>(projects.toArray(new String[0]));
-        JScrollPane scrollPane = new JScrollPane(list);
-        // setLayout(new BorderLayout());
-         add(scrollPane, BorderLayout.SOUTH);
+        ((JComponent) getContentPane()).setBorder(BorderFactory.createEmptyBorder(margin, margin, margin, margin));
     }
 
     private void initializeTimers() {
@@ -305,10 +332,10 @@ public class MainScreen2 extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        // MainScreen2 mainScreen2 = new MainScreen2();
-        // mainScreen2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // mainScreen2.setSize(400, 700);
-        // mainScreen2.setVisible(true);
+        MainScreen2 mainScreen2 = new MainScreen2(1, "Rafay");
+        mainScreen2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainScreen2.setSize(400, 700);
+        mainScreen2.setVisible(true);
 
     }
 }
