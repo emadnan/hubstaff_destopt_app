@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class LoginScreen extends JFrame implements ActionListener {
     
-    JLabel userLabel, passLabel, statusLabel;
+    JLabel userLabel, passLabel, statusLabel, logoLabel;
     JTextField userText;
     JPasswordField passText;
     JButton loginButton;
@@ -21,21 +21,23 @@ public class LoginScreen extends JFrame implements ActionListener {
     static String auth_token;
     
     public LoginScreen() {
+
         userLabel = new JLabel("Email:");
         passLabel = new JLabel("Password:");
         statusLabel = new JLabel("");
         userText = new JTextField();
         passText = new JPasswordField();
         loginButton = new JButton("Login");
-
+        logoLabel = new JLabel(new ImageIcon("src\\main\\resources\\logo.png"));
+        logoLabel.setBounds(70, 50, 150, 79);
         
-        userLabel.setBounds(10, 10, 80, 25);
-        passLabel.setBounds(10, 40, 80, 25);
-        userText.setBounds(100, 10, 160, 25);
-        passText.setBounds(100, 40, 160, 25);
-        loginButton.setBounds(10, 80, 80, 25);
-        statusLabel.setBounds(100, 80, 160, 25);
-        loginButton.setBackground(new java.awt.Color(51, 102, 255));
+        userLabel.setBounds(10, 160, 80, 25);
+        passLabel.setBounds(10, 200, 80, 25);
+        userText.setBounds(80, 160, 180, 25);
+        passText.setBounds(80, 200, 180, 25);
+        loginButton.setBounds(180, 240, 80, 25);
+        statusLabel.setBounds(10, 240, 160, 25);
+        loginButton.setBackground(new java.awt.Color(34,128,190));
         loginButton.setForeground(new java.awt.Color(255, 255, 255));
         loginButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         userText.setFont(new java.awt.Font("Tahoma", 0, 11));
@@ -43,18 +45,23 @@ public class LoginScreen extends JFrame implements ActionListener {
         userLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         passLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         statusLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        
+        add(logoLabel);
         add(userLabel);
         add(passLabel);
         add(userText);
         add(passText);
         add(loginButton);
         add(statusLabel);
-        
+        int margin =50;
+        int width = 300;
+        int height = 600;
+        int x = (int) (getToolkit().getScreenSize().getWidth() - width) / 2;
+        int y = (int) (getToolkit().getScreenSize().getHeight() - height) / 2;
+        setBounds(x, y, width, height);
+        ((JComponent) getContentPane()).setBorder(BorderFactory.createEmptyBorder(margin, margin, margin, margin));
         loginButton.addActionListener(this);
-        
-        setTitle("Biafo Hubstaff Login");
-        setSize(300, 150);
+        setTitle("BiafoHubstaff");
+        setSize(300, 600);
         setLayout(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,7 +84,12 @@ public class LoginScreen extends JFrame implements ActionListener {
             this.setVisible(false);
             MainScreen2 mainScreen2 = new MainScreen2(user_id, auth_token);
             mainScreen2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            mainScreen2.setSize(400, 700);
+            int width = 300;
+            int height = 600;
+            int x = (int) (getToolkit().getScreenSize().getWidth() - width) / 2;
+            int y = (int) (getToolkit().getScreenSize().getHeight() - height) / 2;
+            mainScreen2.setBounds(x, y, width, height);
+            mainScreen2.setSize(300, 600);
             mainScreen2.setVisible(true);
             System.out.println("Login successful!");
         } else {
@@ -145,6 +157,6 @@ public class LoginScreen extends JFrame implements ActionListener {
         return value;
     }
     public static void main(String[] args) {
-        new LoginScreen();
+      new LoginScreen();
     }
 }

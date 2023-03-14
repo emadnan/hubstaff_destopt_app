@@ -54,7 +54,7 @@ public class MainScreen2 extends JFrame implements ActionListener {
         projectLabel.setFont(new Font("Arial", Font.BOLD, 20));
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         timeLabel.setOpaque(true);
-        timeLabel.setBackground(new java.awt.Color(51, 102, 255));
+        timeLabel.setBackground(new java.awt.Color(34,128,190));
         timeLabel.setForeground(new java.awt.Color(255, 255, 255));
         timeLabel.setPreferredSize(new Dimension(40, 40));
         //  String[] items = {"Item 1", "Item 2", "Item 3"};
@@ -168,7 +168,7 @@ public class MainScreen2 extends JFrame implements ActionListener {
                     if (!screenshotList2.isEmpty()) {
                         sendScreenshots(screenshotList2);
                         screenshotList2.clear();
-                        notification("API called");
+                        // notification("API called");
                     }
                 }, 0, 1, TimeUnit.MINUTES); // Schedule the API call to run every minute
 
@@ -320,7 +320,7 @@ public class MainScreen2 extends JFrame implements ActionListener {
         }
     }
     static void stopCapturing() {
-
+        is_stop = 1;
         if (timer != null) {
 
             timer.stop();
@@ -334,7 +334,7 @@ public class MainScreen2 extends JFrame implements ActionListener {
     public static void main(String[] args) {
         MainScreen2 mainScreen2 = new MainScreen2(1, "Rafay");
         mainScreen2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainScreen2.setSize(400, 700);
+        mainScreen2.setSize(300, 600);
         mainScreen2.setVisible(true);
 
     }
